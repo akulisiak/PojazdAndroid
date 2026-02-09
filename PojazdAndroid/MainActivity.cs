@@ -27,12 +27,7 @@ namespace PojazdAndroid
             addButton = FindViewById<ImageButton>(Resource.Id.imageButton1);
             addButton.Click += AddButton_Click;
 
-            foreach (Pojazd p in BazaPojazdow.listaPojazdow)
-            {
-                listaNazw.Add(p.OpisShort());
-            }
-
-            pojazdyListView.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, listaNazw);
+            listUpdate();
         }
 
         private void AddButton_Click(object sender, System.EventArgs e)
@@ -44,6 +39,11 @@ namespace PojazdAndroid
         protected override void OnResume()
         {
             base.OnResume();
+            listUpdate();
+        }
+
+        private void listUpdate()
+        {
             listaNazw.Clear();
             foreach (Pojazd p in BazaPojazdow.listaPojazdow)
             {
