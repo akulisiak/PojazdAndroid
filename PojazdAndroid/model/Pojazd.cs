@@ -28,5 +28,10 @@ namespace PojazdAndroid
         {
             return $"Marka: {marka}, rok produkcji: {rokProdukcji}";
         }
+
+        public virtual string OpisShort()
+        {
+            return $"{marka}, {rokProdukcji}";
+        }
     }
 }
