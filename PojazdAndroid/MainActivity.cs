@@ -4,22 +4,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using PojazdAndroid.Model;
 using System.Collections.Generic;
 
 namespace PojazdAndroid
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
-    {
-        public List<Pojazd> listaPojazdow = new List<Pojazd> {
-            new Samochod(4, "Toyota", 2010),
-            new Motocykl(true, "Harley-Davidson", 1975),
-            new Samochod(2, "Mazda", 2015),
-            new Motocykl(false, "Yamaha", 2020),
-            new Samochod(2, "Volvo", 2024),
-            new Motocykl(false, "BMW", 2021)
-        };
-
+    { 
         List<string> listaNazw = new List<string>();
 
         ListView pojazdyListView;
@@ -35,7 +27,7 @@ namespace PojazdAndroid
             addButton = FindViewById<ImageButton>(Resource.Id.imageButton1);
             addButton.Click += AddButton_Click;
 
-            foreach (Pojazd p in listaPojazdow)
+            foreach (Pojazd p in BazaPojazdow.listaPojazdow)
             {
                 listaNazw.Add(p.OpisShort());
             }
@@ -47,6 +39,18 @@ namespace PojazdAndroid
         {
             Intent intent = new Intent(this, typeof(AddActivity));
             StartActivity(intent);
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            listaNazw.Clear();
+            foreach (Pojazd p in BazaPojazdow.listaPojazdow)
+            {
+                listaNazw.Add(p.OpisShort());
+            }
+
+            pojazdyListView.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, listaNazw);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
